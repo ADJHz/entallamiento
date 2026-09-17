@@ -65,6 +65,13 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'elementos_import' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/elementos-import.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
