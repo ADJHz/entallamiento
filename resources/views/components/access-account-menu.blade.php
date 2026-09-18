@@ -27,10 +27,10 @@
             <p class="text-xs text-gray-500">{{ $actor instanceof \App\Models\Elemento ? 'Elemento de seguridad' : 'Administrador' }}</p>
         </div>
 
-        <a href="{{ route('account.settings') }}" class="mt-1 flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-gray-100">
+        {{-- <a href="{{ route('account.settings') }}" class="mt-1 flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-gray-100">
             <span class="material-symbols-outlined text-[20px]" aria-hidden="true">settings</span>
             <span>Configuración</span>
-        </a>
+        </a> --}}
 
         <form method="POST" action="{{ $actor instanceof \App\Models\Elemento ? route('elementos.logout') : route('logout') }}">
             @csrf

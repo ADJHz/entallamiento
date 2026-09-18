@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    <IfModule mod_headers.c>
+        <FilesMatch "\.(png|jpg|jpeg|webp|avif)$">
+            Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"
+        </FilesMatch>
+    </IfModule>
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

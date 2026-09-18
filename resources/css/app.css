@@ -63,6 +63,127 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
+#uniforme-opciones-grid {
+    width: min(100%, 42rem);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    place-items: center;
+}
+
+.uniforme-opcion-card {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,242,244,0.98));
+    box-shadow: 0 10px 24px rgba(101, 13, 49, 0.08), 0 2px 8px rgba(15, 23, 42, 0.06);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.uniforme-opcion-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: calc((100% - 1rem) / 2);
+}
+
+@media (max-width: 639px) {
+    #uniforme-opciones-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .uniforme-opcion-card:last-child:nth-child(odd) {
+        grid-column: auto;
+        width: 100%;
+    }
+}
+
+.uniforme-opcion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(101, 13, 49, 0.12), 0 6px 12px rgba(15, 23, 42, 0.08);
+}
+
+.uniforme-opcion-card:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(164, 104, 128, 0.22), 0 12px 24px rgba(101, 13, 49, 0.12);
+}
+
+.uniforme-opcion-card.is-selected {
+    border-color: rgba(101, 13, 49, 0.9);
+    background: linear-gradient(180deg, rgba(252,247,249,1), rgba(249,240,244,1));
+    box-shadow: 0 14px 28px rgba(101, 13, 49, 0.14), 0 6px 12px rgba(15, 23, 42, 0.08);
+}
+
+.uniforme-opcion-visual {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 15rem;
+    min-height: 0;
+    margin-inline: auto;
+    border-radius: 0.9rem;
+    background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.75), transparent 28%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.08), rgba(255,255,255,0.14));
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.6);
+}
+
+.uniforme-opcion-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255,255,255,0.22), transparent 36%, rgba(12,18,31,0.12) 100%);
+    pointer-events: none;
+}
+
+.uniforme-opcion-image {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    object-fit: contain;
+    object-position: center;
+    transform: perspective(1200px) rotateX(8deg) rotateY(-12deg) rotateZ(-1deg) scale(1.1);
+    filter: saturate(1.12) contrast(1.14) drop-shadow(0 16px 18px rgba(15, 23, 42, 0.22));
+    padding: 0;
+}
+
+.uniforme-opcion-meta {
+    position: relative;
+    z-index: 1;
+}
+
+.uniforme-opcion-meta p {
+    margin: 0;
+}
+
+.uniforme-opcion-meta .uniforme-opcion-color {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: -0.01em;
+}
+
+.uniforme-opcion-meta .uniforme-opcion-franja {
+    margin-top: 0.2rem;
+    font-size: 0.72rem;
+    color: #4b5563;
+}
+
+.uniforme-opcion-meta .uniforme-opcion-descripcion {
+    margin-bottom: 0.35rem;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #111827;
+}
+
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */

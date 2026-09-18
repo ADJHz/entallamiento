@@ -5,4 +5,5 @@
         :isElemento="$isElemento"
         :name="$isElemento ? $actor->nombre : $actor->name"
     />
-</x-layouts::access>
+
+    </x-layouts::access>

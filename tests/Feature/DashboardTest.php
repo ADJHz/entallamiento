@@ -30,4 +30,5 @@ class DashboardTest extends TestCase
 
         $response->assertOk();
     }
+
 }

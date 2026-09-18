@@ -3,6 +3,8 @@
 use App\Http\Controllers\ElementoLoginController;
 use App\Http\Controllers\ElementoLogoutController;
 use App\Http\Controllers\ElementoLookupController;
+use App\Http\Controllers\UniformeController;
+use App\Http\Controllers\UniformeOpcionesController;
 use App\Http\Middleware\EnsureTeamMembership;
 use App\Models\Elemento;
 use App\Models\User;
@@ -27,6 +29,10 @@ Route::middleware('actor.auth')->get('/dashboard', function (Request $request) {
 
     abort_unless($actor && in_array(get_class($actor), [Elemento::class, User::class], true), 403);
 
+    if ($actor instanceof Elemento) {
+        return redirect()->route('uniforme.show');
+    }
+
     return view('dashboard.access', [
         'actor' => $actor,
     ]);
@@ -35,6 +41,12 @@ Route::middleware('actor.auth')->get('/dashboard', function (Request $request) {
 Route::middleware('actor.auth')->get('/account/settings', function (Request $request) {
     return view('account.settings', ['actor' => $request->user()]);
 })->name('account.settings');
+
+Route::middleware('actor.auth')->group(function () {
+    Route::get('/uniforme', [UniformeController::class, 'show'])->name('uniforme.show');
+    Route::post('/uniforme', [UniformeController::class, 'store'])->name('uniforme.store');
+    Route::get('/uniforme/opciones', UniformeOpcionesController::class)->name('uniforme.opciones');
+});
 
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
