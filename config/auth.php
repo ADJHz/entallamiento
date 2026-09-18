@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Auth\CombinedUserProvider;
 
 return [
 
@@ -63,7 +64,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'combined',
             'model' => env('AUTH_MODEL', User::class),
         ],
 

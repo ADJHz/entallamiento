@@ -12,7 +12,7 @@
 
         <div class="mb-3.5">
             <label for="admin_email" class="mb-1.5 block text-[13px] font-bold">Usuario <span class="text-[#b42b43]">*</span></label>
-            <input id="admin_email" name="email" type="email" value="{{ old('email') }}" placeholder="Ingrese su correo electrónico" required autofocus autocomplete="username" class="block h-8 w-full rounded-md border border-gray-300 bg-white px-2.5 text-[13px] text-gray-600 placeholder-gray-500 focus:border-[#a46880] focus:ring-[#a46880]">
+            <input id="admin_email" name="email" type="text" value="{{ old('email') }}" placeholder="Ingrese su usuario" required autofocus autocomplete="username" class="block h-8 w-full rounded-md border border-gray-300 bg-white px-2.5 text-[13px] text-gray-600 placeholder-gray-500 focus:border-[#a46880] focus:ring-[#a46880]">
         </div>
 
         <div class="mb-3.5">

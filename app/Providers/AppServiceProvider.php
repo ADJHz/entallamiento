@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Auth\CombinedUserProvider;
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\Hashing\Hasher;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        Auth::provider('combined', function ($app, array $config): CombinedUserProvider {
+            return new CombinedUserProvider($app->make(Hasher::class), $config['model']);
+        });
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 #[Fillable([
     'csp',
@@ -16,4 +16,10 @@ use Illuminate\Database\Eloquent\Model;
     'color',
     'franja',
 ])]
-class Elemento extends Model {}
+class Elemento extends Authenticatable
+{
+    public function getAuthIdentifier(): string
+    {
+        return 'elemento:'.$this->getKey();
+    }
+}

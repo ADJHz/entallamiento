@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('elementos', function (Blueprint $table) {
-            $table->string('color')->nullable()->after('direccion');
-            $table->string('franja')->nullable()->after('color');
-        });
+        if (! Schema::hasColumn('elementos', 'color')) {
+            Schema::table('elementos', function (Blueprint $table) {
+                $table->string('color')->nullable()->after('direccion');
+            });
+        }
+
+        if (! Schema::hasColumn('elementos', 'franja')) {
+            Schema::table('elementos', function (Blueprint $table) {
+                $table->string('franja')->nullable()->after('color');
+            });
+        }
     }
 
     /**

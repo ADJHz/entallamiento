@@ -6,9 +6,13 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Responses\LoginResponse;
 use App\Http\Responses\RegisterResponse;
+use App\Models\Elemento;
 use App\Models\TeamInvitation;
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -42,6 +46,36 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureActions(): void
     {
+        Fortify::authenticateUsing(function (Request $request): ?Authenticatable {
+            if ($request->filled('identification_type')) {
+                $credentials = $request->validate([
+                    'email' => ['required', 'string', 'max:255'],
+                    'password' => ['required', 'string', 'max:255'],
+                    'identification_type' => ['required', 'in:cuip'],
+                ]);
+
+                $elemento = Elemento::query()
+                    ->where('csp', trim($credentials['email']))
+                    ->where('cuip', trim($credentials['password']))
+                    ->first();
+
+                return $elemento;
+            }
+
+            $credentials = $request->validate([
+                'email' => ['required', 'string', 'max:255'],
+                'password' => ['required', 'string', 'max:255'],
+            ]);
+            $identifier = trim($credentials['email']);
+            $user = User::query()
+                ->where('name', $identifier)
+                ->orWhere('email', $identifier)
+                ->first();
+
+            return $user && Hash::check($credentials['password'], $user->password)
+                ? $user
+                : null;
+        });
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::createUsersUsing(CreateNewUser::class);
     }
@@ -72,6 +106,10 @@ class FortifyServiceProvider extends ServiceProvider
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
+        });
+
+        RateLimiter::for('elemento-lookup', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip());
         });
 
     }
