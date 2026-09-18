@@ -6,6 +6,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY resources ./resources
 COPY public ./public
+COPY vendor/livewire/flux/dist/flux.css ./vendor/livewire/flux/dist/flux.css
 COPY vite.config.js .
 RUN npm run build
 
