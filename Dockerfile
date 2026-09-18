@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:22-alpine AS frontend
+FROM node:22-bookworm-slim AS frontend
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -19,8 +19,7 @@ RUN composer install \
     --prefer-dist \
     --optimize-autoloader \
     --no-scripts \
-    --ignore-platform-req=ext-gd \
-    --ignore-platform-req=ext-zip
+    --ignore-platform-reqs
 
 FROM php:8.3-apache
 
