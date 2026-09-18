@@ -39,7 +39,7 @@
                 @if ($seleccionBloqueada)
                     Ya tienes tus tallas guardadas. Se cargó la información registrada para ti.
                 @else
-                    Selecciona tu dirección. Color, franja de tu uniforme y captura tus tallas.
+                    Confirma la información de tu uniforme y registra tus tallas correctamente.
                 @endif
             </p>
 
@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                    <h3 class="mb-4 text-sm font-bold text-gray-900">Tallas</h3>
+                    <h3 class="mb-4 text-sm font-bold text-gray-900">POR FAVOR SELECCIONA TUS TALLAS CORRECTAMENTE.</h3>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
                             <label for="talla_chamarra" class="mb-1.5 block text-[13px] font-bold">Talla Chamarra <span
