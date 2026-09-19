@@ -1,6 +1,6 @@
 # Despliegue en Render
 
-El proyecto incluye un `Dockerfile` y un `render.yaml` para desplegar Laravel como servicio web en Render con PostgreSQL.
+El proyecto incluye un `Dockerfile` y un `render.yaml` para desplegar Laravel como servicio web en Render usando MySQL.
 
 ## Opcion recomendada: Blueprint
 
@@ -20,11 +20,13 @@ php artisan key:generate --show
 
 - `APP_KEY`: clave base64 generada por Laravel. No la compartas ni la cambies despues de crear sesiones o tokens.
 - `APP_URL`: URL publica completa del servicio.
-- `DB_URL`: la crea Render desde la base de datos PostgreSQL del blueprint.
+- `DB_URL`: URL de conexión de tu servidor MySQL externo.
 - `APP_DEBUG=false`: debe mantenerse desactivado en produccion.
 - `SESSION_DRIVER=database` y `CACHE_STORE=database`: evitan depender del disco efimero del contenedor.
 
 ## Despliegue manual como Web Service
+
+Render no ofrece MySQL administrado para este servicio, por lo que debes usar una instancia MySQL externa (por ejemplo, tu proveedor de base de datos actual) y permitir las conexiones desde Render.
 
 Si no usas Blueprint:
 
@@ -32,7 +34,7 @@ Si no usas Blueprint:
 - Dockerfile Path: `./Dockerfile`
 - Docker Context: `.`
 - Health Check Path: `/up`
-- Agrega una base de datos PostgreSQL y configura `DB_CONNECTION=pgsql` y `DB_URL` con su Internal Database URL.
+- Configura `DB_CONNECTION=mysql` y agrega `DB_URL` con la URL de conexión de MySQL, por ejemplo `mysql://usuario:password@host:3306/entallamiento`.
 - Configura tambien `APP_KEY`, `APP_URL`, `APP_ENV=production` y `APP_DEBUG=false`.
 
-Las imagenes de `public/camisas` se empaquetan dentro de la imagen Docker. El startup script ejecuta `php artisan migrate --force`, cachea la configuracion, rutas y vistas, y luego inicia Apache en el puerto que Render expone internamente.
+Las imagenes de `public/camisas` se empaquetan dentro de la imagen Docker. El startup script ejecuta `php artisan migrate --force`, cachea la configuracion y vistas, y luego inicia Apache en el puerto que Render expone internamente.

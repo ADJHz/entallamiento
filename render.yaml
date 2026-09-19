@@ -22,11 +22,9 @@ services:
       - key: LOG_LEVEL
         value: warning
       - key: DB_CONNECTION
-        value: pgsql
+        value: mysql
       - key: DB_URL
-        fromDatabase:
-          name: entallamiento-db
-          property: connectionString
+        sync: false
       - key: SESSION_DRIVER
         value: database
       - key: SESSION_ENCRYPT
@@ -37,9 +35,3 @@ services:
         value: sync
       - key: FILESYSTEM_DISK
         value: local
-
-databases:
-  - name: entallamiento-db
-    plan: free
-    databaseName: entallamiento
-    user: entallamiento

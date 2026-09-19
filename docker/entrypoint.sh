@@ -3,6 +3,16 @@ set -eu
 
 cd /var/www/html
 
+database_url="${DB_URL:-${DATABASE_URL:-}}"
+
+if [ -z "${DB_CONNECTION:-}" ]; then
+    case "$database_url" in
+        postgres://*|postgresql://*)
+            export DB_CONNECTION=pgsql
+            ;;
+    esac
+fi
+
 mkdir -p \
     storage/framework/cache/data \
     storage/framework/sessions \
