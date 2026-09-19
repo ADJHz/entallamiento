@@ -34,7 +34,25 @@ Si no usas Blueprint:
 - Dockerfile Path: `./Dockerfile`
 - Docker Context: `.`
 - Health Check Path: `/up`
-- Configura `DB_CONNECTION=mysql` y agrega `DB_URL` con la URL de conexión de MySQL, por ejemplo `mysql://usuario:password@host:3306/entallamiento`.
+- Configura `DB_CONNECTION=mysql` y una de estas opciones.
+
+	URL completa:
+
+	```env
+	DB_URL=mysql://usuario:password@host:3306/entallamiento
+	```
+
+	O variables separadas:
+
+	```env
+	DB_HOST=host-real-de-mysql
+	DB_PORT=3306
+	DB_DATABASE=entallamiento
+	DB_USERNAME=usuario
+	DB_PASSWORD=password
+	```
+
+	No uses `127.0.0.1` como `DB_HOST`: en Render apunta al contenedor web, no al servidor MySQL.
 - Configura tambien `APP_KEY`, `APP_URL`, `APP_ENV=production` y `APP_DEBUG=false`.
 
 Las imagenes de `public/camisas` se empaquetan dentro de la imagen Docker. El startup script ejecuta `php artisan migrate --force`, cachea la configuracion y vistas, y luego inicia Apache en el puerto que Render expone internamente.
