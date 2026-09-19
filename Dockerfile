@@ -1,15 +1,5 @@
 # syntax=docker/dockerfile:1
 
-FROM node:22-bookworm-slim AS frontend
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY resources ./resources
-COPY public ./public
-COPY vendor/livewire/flux/dist/flux.css ./vendor/livewire/flux/dist/flux.css
-COPY vite.config.js .
-RUN npm run build
-
 FROM composer:2 AS dependencies
 WORKDIR /app
 COPY composer.json composer.lock ./
@@ -21,6 +11,16 @@ RUN composer install \
     --optimize-autoloader \
     --no-scripts \
     --ignore-platform-reqs
+
+FROM node:22-bookworm-slim AS frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY resources ./resources
+COPY public ./public
+COPY --from=dependencies /app/vendor/livewire/flux/dist/flux.css ./vendor/livewire/flux/dist/flux.css
+COPY vite.config.js .
+RUN npm run build
 
 FROM php:8.3-apache
 
